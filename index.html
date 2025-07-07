@@ -124,13 +124,11 @@
   <div class="center-text">I Love You 💗</div>
   <button id="audio-btn">💖 Tocar Música</button>
 
-  <audio id="bg-audio" loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_bfbb76300f.mp3?filename=romantic-love-ambient-piano-122253.mp3" type="audio/mpeg">
-    Seu navegador não suporta áudio.
-  </audio>
+  <!-- YouTube player invisível -->
+  <iframe id="yt-player" width="0" height="0" src="https://www.youtube.com/embed/xQ6TZGc-IHU?enablejsapi=1&origin=" frameborder="0" allow="autoplay"></iframe>
 
   <script>
-    // Criar estrelas
+    // Criar estrelas no fundo
     for (let i = 0; i < 100; i++) {
       const star = document.createElement("div");
       star.classList.add("star");
@@ -140,7 +138,7 @@
       document.body.appendChild(star);
     }
 
-    // Criar corações subindo
+    // Criar corações que flutuam
     function createHeart() {
       const heart = document.createElement("div");
       heart.classList.add("heart");
@@ -154,7 +152,7 @@
 
     setInterval(createHeart, 400);
 
-    // Criar "M + A" piscando aleatoriamente
+    // Criar "M + A" flutuando e piscando
     function createFloatingMA() {
       const ma = document.createElement('div');
       ma.classList.add('ma-floating');
@@ -168,10 +166,7 @@
       ma.style.left = `${x}px`;
       ma.style.top = `${y}px`;
 
-      setTimeout(() => {
-        ma.style.opacity = 1;
-      }, 100);
-
+      setTimeout(() => { ma.style.opacity = 1; }, 100);
       setTimeout(() => {
         ma.style.opacity = 0;
         setTimeout(() => ma.remove(), 1000);
@@ -180,18 +175,29 @@
 
     setInterval(createFloatingMA, 800);
 
-    // Botão de música
-    const audio = document.getElementById('bg-audio');
+    // Player YouTube invisível
+    let player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('yt-player');
+    }
+
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+
     const btn = document.getElementById('audio-btn');
+    let isPlaying = false;
 
     btn.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play();
-        btn.textContent = '⏸️ Pausar Música';
-      } else {
-        audio.pause();
+      if (!player) return;
+      if (isPlaying) {
+        player.pauseVideo();
         btn.textContent = '💖 Tocar Música';
+      } else {
+        player.playVideo();
+        btn.textContent = '⏸️ Pausar Música';
       }
+      isPlaying = !isPlaying;
     });
   </script>
 </body>
