@@ -33,36 +33,82 @@
       color: #ff69b4;
       font-size: 3rem;
       text-shadow: 0 0 10px white, 0 0 20px white;
-      z-index: 1;
+      z-index: 2;
       text-align: center;
       user-select: none;
+      animation: pulse 2.5s infinite ease-in-out;
+    }
+
+    .floating-ma {
+      position: absolute;
+      top: 15%;
+      left: 10%;
+      font-size: 2.2rem;
+      font-weight: bold;
+      z-index: 2;
+      user-select: none;
+      animation: colorChange 4s infinite ease-in-out alternate;
+      text-shadow: 0 0 8px white;
+    }
+
+    .floating-ma2 {
+      top: 75%;
+      left: 80%;
+      position: absolute;
+      font-size: 2.5rem;
+      font-weight: bold;
+      z-index: 2;
+      user-select: none;
+      animation: colorChange2 4s infinite ease-in-out alternate;
+      text-shadow: 0 0 8px white;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    @keyframes colorChange {
+      0%   { color: #ff69b4; }
+      25%  { color: #00ffff; }
+      50%  { color: #ffff00; }
+      75%  { color: #ff00ff; }
+      100% { color: #00ff99; }
+    }
+
+    @keyframes colorChange2 {
+      0%   { color: #ffb6c1; }
+      25%  { color: #87cefa; }
+      50%  { color: #98fb98; }
+      75%  { color: #ffa07a; }
+      100% { color: #dda0dd; }
     }
   </style>
 </head>
 <body>
   <canvas id="matrix"></canvas>
+
   <div class="center-text">I Love You 💗</div>
+  <div class="floating-ma">M + A</div>
+  <div class="floating-ma2">M + A</div>
 
   <script>
     const canvas = document.getElementById('matrix');
     const ctx = canvas.getContext('2d');
 
-    // Tamanho inicial
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
     const letters = 'I Love You '.split('');
     const fontSize = 20;
     const columns = Math.floor(canvas.width / fontSize);
-
     const drops = Array.from({ length: columns }).fill(1);
 
     function draw() {
-      // Fundo transparente para efeito de cauda
       ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = '#ff69b4'; // rosa claro
+      ctx.fillStyle = '#ff69b4';
       ctx.font = fontSize + 'px monospace';
 
       for (let i = 0; i < drops.length; i++) {
@@ -79,7 +125,6 @@
 
     setInterval(draw, 50);
 
-    // Redimensiona automaticamente
     window.addEventListener('resize', () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
